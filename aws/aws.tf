@@ -55,25 +55,6 @@ EOF
 # the previously created role has within AWS.
 #
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
-resource "aws_iam_policy" "tfc_policy" {
-  name        = "tfc-policy"
-  description = "TFC run policy"
-
-  policy = <<EOF
-{
- "Version": "2012-10-17",
- "Statement": [
-   {
-     "Effect": "Allow",
-     "Action": [
-       "s3:ListBucket"
-     ],
-     "Resource": "*"
-   }
- ]
-}
-EOF
-}
 
 # Creates an attachment to associate the above policy with the
 # previously created role.
@@ -81,5 +62,5 @@ EOF
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
 resource "aws_iam_role_policy_attachment" "tfc_policy_attachment" {
   role       = aws_iam_role.tfc_role.name
-  policy_arn = aws_iam_policy.tfc_policy.arn
+  policy_arn = var.tfc_policy_arn
 }
